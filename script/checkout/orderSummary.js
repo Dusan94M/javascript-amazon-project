@@ -2,8 +2,10 @@ import { calculateCartQuantity, cart, removeFromCart, updateQuantity, updateDeli
 import { products, getProduct } from "../../data/products.js";
 import { fromatCurrency } from'../utils/money.js';
 import  dayjs from'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
+
 export function renderOrderSummary(){
     
   let cartSummaryHTML = '';
@@ -18,11 +20,8 @@ export function renderOrderSummary(){
 
     let deliveryOption = getDeliveryOption(deliveryOptionId)
 
-    let today = dayjs();
-    let deliveryDate = today.add(
-        deliveryOption.deliveryDays,
-        'days');
-    let dateString = deliveryDate.format('dddd, MMMM D');
+    let dateString = calculateDeliveryDate(deliveryOption);
+
     cartSummaryHTML +=`
     <div class="cart-item-container 
     js-cart-item-container-${matchingProducts.id}">
@@ -73,11 +72,7 @@ export function renderOrderSummary(){
     let deliveryOptionhtml = '';
     
     deliveryOptions.forEach((deliveryOption) => {
-      let today = dayjs();
-      let deliveryDate = today.add(
-        deliveryOption.deliveryDays,
-        'days');
-      let dateString = deliveryDate.format('dddd, MMMM D');
+      let dateString = calculateDeliveryDate(deliveryOption);
 
       
       let price = deliveryOption.priceCents === 0 ? 'Free': `$${fromatCurrency(deliveryOption.priceCents)}-`;
@@ -118,13 +113,15 @@ export function renderOrderSummary(){
     const container = document.querySelector(`.js-cart-item-container-${productId}`);
     container.remove();
     renderPaymentSummary();
+    renderOrderSummary();
+    renderCheckoutHeader();
     });
   });
 
   function updateCartQuantity(){
       const cartQuantity = calculateCartQuantity();
 
-      document.querySelector('.js-return-to-home-link').innerHTML = `${cartQuantity} items `;
+      renderCheckoutHeader(cartQuantity);
 
     }
 
