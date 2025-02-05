@@ -1,6 +1,6 @@
 import { calculateCartQuantity, cart, removeFromCart, updateQuantity, updateDeliveryOption } from'../../data/cart.js'
 import { products, getProduct } from "../../data/products.js";
-import { fromatCurrency } from'../utils/money.js';
+import { formatCurrency } from'../utils/money.js';
 import  dayjs from'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
@@ -38,7 +38,7 @@ export function renderOrderSummary(){
             ${matchingProducts.name}
           </div>
           <div class="product-price">
-            $${fromatCurrency(matchingProducts.priceCents)}
+            $${formatCurrency(matchingProducts.priceCents)}
           </div>
           <div class="product-quantity">
             <span>
@@ -74,8 +74,7 @@ export function renderOrderSummary(){
     deliveryOptions.forEach((deliveryOption) => {
       let dateString = calculateDeliveryDate(deliveryOption);
 
-      
-      let price = deliveryOption.priceCents === 0 ? 'Free': `$${fromatCurrency(deliveryOption.priceCents)}-`;
+      let price = deliveryOption.priceCents === 0 ? 'Free': `$${formatCurrency(deliveryOption.priceCents)}-`;
 
       let isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
