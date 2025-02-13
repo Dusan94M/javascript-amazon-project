@@ -150,6 +150,7 @@ export function renderOrderSummary(){
       document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
       
       updateQuantity(productId, newQuantity);
+      renderOrderSummary();
     });
   });
 
