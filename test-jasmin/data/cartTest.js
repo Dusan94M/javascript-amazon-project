@@ -11,6 +11,7 @@ describe('test suite: addToCart', () => {
         deliveryOptionId: '1'
       }]);
     });
+    
     loadFromStorage();
     
 
