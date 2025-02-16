@@ -23,6 +23,10 @@ function saveToStorage(){
 
 export function addToCart(productId) {
 
+  let quantitySelector = document.querySelector(`.js-selector${productId}`);
+
+  let quantity = Number(quantitySelector.value);
+
   let matchingItem;
 
   cart.forEach((cartItem) => {
@@ -32,7 +36,7 @@ export function addToCart(productId) {
   });
 
   if(matchingItem){
-    matchingItem.quantity += 1;
+    matchingItem.quantity += quantity;
   }else{
     cart.push({
       productId: productId,
