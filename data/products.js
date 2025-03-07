@@ -103,7 +103,9 @@ export function loadProductsFetch(){
       return new Product(productDetails);
     });
     console.log('load products')
-  });
+  })/*.catch(() => {
+    console.log('Unexpected error, please try again!')
+  });*/
   return promise;
 }
 /*
@@ -128,6 +130,11 @@ export function loadProducts(fun){
     });
     console.log('load products')
     
+    });
+
+    xhr.addEventListener('error', () => {
+      //console.log('Unexpecter error, please try again!');
+  
     fun();
   });
 
@@ -135,6 +142,7 @@ export function loadProducts(fun){
   xhr.send();
 
 }
+
 /*
 class Appliance extends Product{
   instructionsLink;
