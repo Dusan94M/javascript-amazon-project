@@ -25,10 +25,6 @@ function saveToStorage(){
 
 export function addToCart(productId) {
 
-  let quantitySelector = document.querySelector(`.js-selector${productId}`);
-
-  let quantity = Number(quantitySelector.value);
-
   let matchingItem;
 
   cart.forEach((cartItem) => {
@@ -38,11 +34,11 @@ export function addToCart(productId) {
   });
 
   if(matchingItem){
-    matchingItem.quantity += quantity;
+    matchingItem.quantity += 1;
   }else{
     cart.push({
       productId: productId,
-      quantity: quantity,
+      quantity: 1,
       deliveryOptionId: '1'
     });
   }
@@ -109,7 +105,7 @@ export function loadCart(fun){
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener('load', () => {
-    console.log(xhr.response)
+    //console.log(xhr.response)
     
     fun();
   });
@@ -124,7 +120,7 @@ export async  function loadCartFetch(){
     method: 'GET'
   })
   const text = response.text();
-  console.log(text)
+  //console.log(text)
   return text;
 }
 
