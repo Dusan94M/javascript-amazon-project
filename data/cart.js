@@ -87,8 +87,7 @@ export function updateQuantity(productId, newQuantity){
   
   matchingItem.quantity = newQuantity;
 
-  saveToStorage();
-  
+  saveToStorage();  
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId){
