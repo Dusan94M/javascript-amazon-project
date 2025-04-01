@@ -6,10 +6,10 @@ import { loadCart, loadCartFetch } from '../data/cart.js';
 //import {Cart} from '../data/cart-class.js';
 //import { Car } from"../data/car.js";
 //import'../data/backend-practice.js';
+
 async function loadPage(){
  try{
 //  throw 'error1';
-  await loadProductsFetch();
   await loadCartFetch();
   await Promise.all([
     loadProductsFetch(),

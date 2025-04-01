@@ -18,6 +18,7 @@ class Product {
   name;
   rating;
   priceCents;
+  keywords;
 
   constructor(productDetails){
     this.id = productDetails.id;
@@ -25,6 +26,7 @@ class Product {
     this.name = productDetails.name;
     this.rating = productDetails.rating;
     this.priceCents = productDetails.priceCents;
+    this.keywords = productDetails.keywords;
   }
 
   getStartURL(){
@@ -89,24 +91,28 @@ obj3.method();
 
 */
 
-export function loadProductsFetch(){
-  let promise = fetch('https://supersimplebackend.dev/products').then((response) => {
-    return response.json();
-  }).then((productsData) => {
-    products = productsData.map((productDetails) => {
-      if(productDetails.type === 'clothing'){
-        return new Clothing(productDetails);
-      }
-      if(productDetails.type === 'appliance'){
-        return new Appliance(productDetails);
-      }
-      return new Product(productDetails);
-    });
-    console.log('load products')
-  })/*.catch(() => {
-    console.log('Unexpected error, please try again!')
-  });*/
-  return promise;
+export async function loadProductsFetch(){
+  try{
+    let promise = await fetch('https://supersimplebackend.dev/products').then((response) => {
+      return response.json();
+    }).then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if(productDetails.type === 'clothing'){
+          return new Clothing(productDetails);
+        }
+        if(productDetails.type === 'appliance'){
+          return new Appliance(productDetails);
+        }
+        return new Product(productDetails);
+      });
+      console.log('load products')
+    })/*.catch(() => {
+      console.log('Unexpected error, please try again!')
+    });*/
+    return promise;
+  }catch(error){
+    console.log('error')
+  }
 }
 /*
 loadProductsFetch().then(() => {

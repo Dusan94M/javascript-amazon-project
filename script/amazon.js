@@ -1,14 +1,35 @@
 import {cart, addToCart, calculateCartQuantity} from'../data/cart.js'
-import {products, loadProducts} from '../data/products.js'
+import {loadProductsFetch, products} from '../data/products.js'
 import { formatCurrency} from'./utils/money.js';
 
-loadProducts(renderProductsGrid);
+// /loadProducts(renderProductsGrid);
+loadProductsFetch().then(renderProductsGrid);
 
 function renderProductsGrid(){
 
   let productsHTML = '';
 
-  products.forEach((product) => {
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get('search');
+
+  let filterProducts = products;
+
+  if(search){
+    filterProducts = products.filter((product) => {
+      let matchingKeyword = false;
+
+      product.keywords.forEach((keyword) => {
+        if (keyword.toLowerCase().includes(search.toLowerCase())) {
+          matchingKeyword = true;
+        }
+      });
+
+      return matchingKeyword ||
+        product.name.toLowerCase().includes(search.toLowerCase());
+    });
+  }
+
+  filterProducts.forEach((product) => {
     productsHTML += `
           <div class="product-container">
             <div class="product-image-container">
@@ -83,4 +104,11 @@ function renderProductsGrid(){
     });
   });
 }
+
+document.querySelectorAll('.js-search-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    const search = document.querySelector('.js-search-bar').value;
+    window.location.href = `amazon.html?search=${search}`;
+  });
+})
  
